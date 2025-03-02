@@ -1,0 +1,42 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18' # 사용할 Node.js 버전을 설정합니다.
+
+    - name: Install dependencies
+      run: npm i
+
+    - name: Build project
+      run: npx vite build # 프로젝트 빌드 명령어를 실행합니다.
+
+    - name: Transfer files via SCP
+      env:
+        SERVER_HOST: ${{ secrets.SERVER_HOST }}
+        SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
+        SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
+      run: 
+        sudo apt-get update
+        sudo apt-get install -y ftp-ssl
+        echo "open ${{ secrets.SERVER_HOST }}" > ftp_commands.txt
+        echo "user ${{ secrets.SERVER_USERNAME }} ${{ secrets.SERVER_PASSWORD }}" >> ftp_commands.txt
+        echo "cd /html" >> ftp_commands.txt
+        echo "lcd dist" >> ftp_commands.txt
+        echo "mput *" >> ftp_commands.txt
+        echo "bye" >> ftp_commands.txt
+        ftp -vin < ftp_commands.txt
+
