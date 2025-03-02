@@ -38,5 +38,5 @@ jobs:
         echo "lcd dist" >> ftp_commands.txt
         echo "mput *" >> ftp_commands.txt
         echo "bye" >> ftp_commands.txt
-        ftp -vin < ftp_commands.txt
+        ftp -inv < ftp_commands.txt
 
