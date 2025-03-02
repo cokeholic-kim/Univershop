@@ -19,7 +19,7 @@ jobs:
         node-version: '18' # 사용할 Node.js 버전을 설정합니다.
 
     - name: Install dependencies
-      run: npm i
+      run: npm install
 
     - name: Build project
       run: npx vite build # 프로젝트 빌드 명령어를 실행합니다.
