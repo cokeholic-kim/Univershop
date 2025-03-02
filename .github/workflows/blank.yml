@@ -32,11 +32,12 @@ jobs:
       run: 
         sudo apt-get update
         sudo apt-get install -y ftp-ssl
-        echo "open ${{ secrets.SERVER_HOST }}" > ftp_commands.txt
-        echo "user ${{ secrets.SERVER_USERNAME }} ${{ secrets.SERVER_PASSWORD }}" >> ftp_commands.txt
+        echo "open ***" > ftp_commands.txt
+        echo "user *** ***" >> ftp_commands.txt
         echo "cd /html" >> ftp_commands.txt
         echo "lcd dist" >> ftp_commands.txt
         echo "mput *" >> ftp_commands.txt
         echo "bye" >> ftp_commands.txt
-        ftp -inv < ftp_commands.txt
+        cat ftp_commands.txt
+        ftp -n -v < ftp_commands.txt
 
