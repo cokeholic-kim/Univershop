@@ -46,7 +46,7 @@ export default function Header() {
 
         <Link to="/" className="ml-4 md:ml-0 flex items-center gap-2">
           <ShoppingBag className="h-6 w-6" />
-          <span className="font-bold hidden md:inline-block">ShopMall</span>
+          <span className="font-bold hidden md:inline-block">UniverShop</span>
         </Link>
 
         <nav className="mx-6 hidden md:flex items-center gap-4 lg:gap-6">
