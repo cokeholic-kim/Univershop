@@ -30,14 +30,10 @@ jobs:
         SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
         SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
       run: 
-        sudo apt-get update
-        sudo apt-get install -y ftp-ssl
-        echo "open ***" > ftp_commands.txt
-        echo "user *** ***" >> ftp_commands.txt
-        echo "cd /html" >> ftp_commands.txt
-        echo "lcd dist" >> ftp_commands.txt
-        echo "mput *" >> ftp_commands.txt
-        echo "bye" >> ftp_commands.txt
-        cat ftp_commands.txt
-        ftp -n -v < ftp_commands.txt
+        lftp -u  ${{ secrets.SERVER_USERNAME }},${{ secrets.SERVER_PASSWORD }} ftp://${{ secrets.SERVER_HOST }}:21 <<EOF
+        cd /html
+        lcd dist
+        mput *
+        bye
+        EOF
 
