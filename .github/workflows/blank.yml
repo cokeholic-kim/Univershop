@@ -38,10 +38,10 @@ jobs:
         SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
         SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
       run: 
-        lftp -u  ${{ secrets.SERVER_USERNAME }},${{ secrets.SERVER_PASSWORD }} ftp://${{ secrets.SERVER_HOST }}:21 <<EOF
-        cd /html
-        lcd dist
-        mput *
-        bye
+        lftp -u  ${{ secrets.SERVER_USERNAME }},${{ secrets.SERVER_PASSWORD }} ftp://${{ secrets.SERVER_HOST }}:21 <<-EOF
+          cd /html
+          lcd dist
+          mput *
+          bye
         EOF
 
