@@ -39,8 +39,8 @@ jobs:
         SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
       run: 
         lftp -u  ${{ secrets.SERVER_USERNAME }},${{ secrets.SERVER_PASSWORD }} ftp://${{ secrets.SERVER_HOST }}:21 -e "
-        cd /html
-        lcd dist
-        mput *
+        cd /html;
+        lcd dist;
+        mput *;
         bye
         "
