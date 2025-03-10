@@ -8,6 +8,7 @@ import AdminLayout from "./layouts/AdminLayout"
 // Pages
 import HomePage from "./pages/HomePage"
 import LoadingSpinner from "./components/LoadingSpinner"
+import LoginPage from "./pages/LoginPage"
 
 // Lazy-loaded pages for better performance
 const CategoriesPage = lazy(() => import("./pages/CategoriesPage"))
@@ -28,6 +29,7 @@ function App() {
             <Route index element={<HomePage />} />
             <Route path="categories" element={<CategoriesPage />} />
             <Route path="categories/:slug" element={<CategoryPage />} />
+            <Route path="login" element={<LoginPage />} />
           </Route>
 
           {/* Admin routes */}

@@ -1,15 +1,38 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
-import { Menu, Search, ShoppingBag, User, X } from "lucide-react"
+import { LogOut, Menu, Search, ShoppingBag, User, X } from "lucide-react"
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet"
+import { supabase } from "@/lib/supabase"
 
 export default function Header() {
+  const [isLogin,setIsLogin ] = useState(false)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
 
+  const checkLogin = async () => {
+    const authInfo = await supabase.auth.getSession();
+    const session = authInfo.data.session
+    console.log(session)
+    if(session === null){
+      setIsLogin(false)
+    }else{
+      setIsLogin(true)
+    }
+    
+  }
+
+  const signOut = async () => {
+    const error = await supabase.auth.signOut();
+    console.log(error);
+    checkLogin();
+  }
+
+  useEffect(()=>{
+   checkLogin();
+  },[])
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background">
       <div className="container flex h-16 items-center">
@@ -87,11 +110,19 @@ export default function Header() {
             <ShoppingBag className="h-5 w-5" />
             <span className="sr-only">Cart</span>
           </Button>
-
-          <Button variant="ghost" size="icon">
-            <User className="h-5 w-5" />
-            <span className="sr-only">Account</span>
-          </Button>
+          {isLogin ? 
+            <Button variant="ghost" size="icon" onClick={signOut}>
+              <LogOut className="h-5 w-5" />
+              <span className="sr-only">Logout</span>
+            </Button>
+          : 
+            <Button variant="ghost" size="icon">
+              <Link to="/login" className="text-sm font-medium transition-colors hover:text-primary">
+                <User className="h-5 w-5" />
+                <span className="sr-only">Account</span>
+              </Link>
+            </Button>
+          }
         </div>
       </div>
     </header>
